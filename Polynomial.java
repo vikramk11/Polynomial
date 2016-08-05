@@ -1,10 +1,10 @@
 public class Polynomial {
-    private int[] coef;
+    private double[] coef;
     private int deg;     
 
   
     public Polynomial(int a, int b) {
-        coef = new int[b+1];
+        coef = new double[b+1];
         coef[b] = a;
         deg = degree();
     }
@@ -48,24 +48,43 @@ public class Polynomial {
     public String toString() {
         if (deg ==  0) return "" + coef[0];
         if (deg ==  1) return coef[1] + "x + " + coef[0];
-        String s = coef[deg] + "x^" + deg;
+        String polyString = coef[deg] + "x^" + deg;
         for (int i = deg-1; i >= 0; i--) {
-            if      (coef[i] == 0) continue;
-            else if (coef[i]  > 0) s = s + " + " + ( coef[i]);
-            else if (coef[i]  < 0) s = s + " - " + (-coef[i]);
-            if      (i == 1) s = s + "x";
-            else if (i >  1) s = s + "x^" + i;
+            if      (coef[i] == 0) 
+            	continue;
+            else if (coef[i]  > 0) 
+            	polyString = polyString + " + " + ( coef[i]);
+            else if (coef[i]  < 0) 
+            	polyString = polyString + " - " + (-coef[i]);
+            if      (i == 1) 
+            	polyString = polyString + "x";
+            else if (i >  1) 
+            	polyString = polyString + "x^" + i;
         }
-        return s;
+        return polyString;
     }
-
+    
+    public String toLatex(){
+    	String header = "\\documentclass{article}"+"\\usepackage[utf8]{inputenc}"+"\\begin{document}"+"\n ";
+    	String body = this.toString()+"\n";
+    	String footer ="\\end{document}";
+    	
+    	return header+body+footer;
+    }
+    
+//    public String toHtml(){
+//    	String header = "<!doctype html>"+"\n"+"<html lang="en">"+"\n"+"<head>"+"\n"+"<meta charset="utf-8">"+"\n"+"<title>The HTML5 Herald</title>";
+//  
+//
+//  
+//    }
    
     public static void main(String[] args) { 
         Polynomial zero = new Polynomial(0, 0);
 
         Polynomial p1   = new Polynomial(4, 3);
-        Polynomial p2   = new Polynomial(3, 2);
-        Polynomial p3   = new Polynomial(1, 0);
+        Polynomial p2   = new Polynomial(3, 1);
+        Polynomial p3   = new Polynomial(1, 2);
         Polynomial p4   = new Polynomial(2, 1);
         Polynomial p    = p1.addition(p2).addition(p3).addition(p4);  
 
@@ -77,12 +96,12 @@ public class Polynomial {
         Polynomial r    = p.addition(q);
         Polynomial s    = p.multiplication(q);
 
-        System.out.println("zero(x) =     " + zero);
-        System.out.println("p(x) =        " + p);
+        //System.out.println("zero(x) =     " + zero);
+        System.out.println("p(x) in latex =       \n" + p.toLatex());
         System.out.println("q(x) =        " + q);
-        System.out.println("p(x) + q(x) = " + r);
-        System.out.println("p(x) * q(x) = " + s);
-        System.out.println("0 - p(x)    = " + zero.subtraction(p));
+//        System.out.println("p(x) + q(x) = " + r);
+//        System.out.println("p(x) * q(x) = " + s);
+//        System.out.println("0 - p(x)    = " + zero.subtraction(p));
 
    }
 
