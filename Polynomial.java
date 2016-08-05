@@ -8,7 +8,7 @@ public class Polynomial {
     private double[] coef;
     private int deg;
 
-    public Polynomial(int a, int b) {
+    public Polynomial(double a, int b) {
         coef = new double[b + 1];
         coef[b] = a;
         deg = degree();
@@ -84,11 +84,24 @@ public class Polynomial {
 
         return header + body + footer;
     }
+    
+    public String createSuperScripts(String x){
+    	String result = "";
+    	for(int i=0;i<x.length();++i){
+    		if(x.charAt(i)=='^')
+    			result+="<sup>"+x.charAt(++i)+"</sup>";
+    		else 
+    			result+=x.charAt(i);
+    	}
+    	return result;
+    }
 
     public String toHtml() {
         String header = "<!doctype html>" + "\n<html lang=\"en\">" + "\n<body>" + "\n<p>";
         String body = this.toString() + "\n";
         String footer = "</p>" + "\n</body>" + "\n</html>";
+        
+        body = createSuperScripts(body);
 
         printToFile(header+body+footer,".html");
 
@@ -118,7 +131,7 @@ public class Polynomial {
     public static void main(String[] args) {
         Polynomial zero = new Polynomial(0, 0);
 
-        Polynomial p1 = new Polynomial(4, 3);
+        Polynomial p1 = new Polynomial(100.2, 3);
         Polynomial p2 = new Polynomial(3, 1);
         Polynomial p3 = new Polynomial(1, 2);
         Polynomial p4 = new Polynomial(2, 1);
